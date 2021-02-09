@@ -1,22 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Listing
 # Create your views here.
 
 
 def index(request):
-    listings= Listing.objects.order_by('-list_date').filter(is_publihed=True)
-    paginator = Paginator(listings,3)
-    page =request.GET.get('page')
+    listings = Listing.objects.order_by('-list_date').filter(is_publihed=True)
+    paginator = Paginator(listings, 3)
+    page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
-    context={
-        'listings':paged_listings
+    context = {
+        'listings': paged_listings
     }
-    return render(request, 'listings/listings.html',context=context)
+    return render(request, 'listings/listings.html', context=context)
 
 
 def listing(request, listing_id):
-    return render(request, 'listings/listings.html')
+    listing = get_object_or_404(Listing, pk=listing_id)
+    context = {'listing': listing}
+    return render(request, 'listings/listing.html', context=context)
 
 
 def search(request):
