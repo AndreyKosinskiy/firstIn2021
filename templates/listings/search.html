@@ -13,6 +13,7 @@
                 name="keywords"
                 class="form-control"
                 placeholder="Keyword (Pool, Garage, etc)"
+                value="{{ values.keywords }}"
               />
             </div>
 
@@ -23,6 +24,7 @@
                 name="city"
                 class="form-control"
                 placeholder="City"
+                value="{{ values.city }}"
               />
             </div>
 
@@ -32,7 +34,8 @@
                 <option selected="true" disabled="disabled">State (All)</option>
                 {% if state_choices %} 
                 {% for key, value in state_choices.items %}
-                <option value="{{key}}">{{value}}</option>
+                {% if key == values.state %}{% endif %}
+                <option value="{{key}}" {% if key == values.state %} selected {% endif %}>{{value}}</option>
                 {% endfor %} 
                 {% endif %}
               </select>
@@ -48,7 +51,7 @@
                 </option>
                 {% if bedroom_choices %} 
                   {% for key, value in bedroom_choices.items %}
-                <option value="{{key}}">{{value}}</option>
+                <option value="{{key}}" {% if key == values.bedrooms %} selected {% endif %} >{{value}}</option>
                 {% endfor %} 
                 {% endif %}
               </select>
@@ -60,7 +63,7 @@
                 </option>
                 {% if price_choices %} 
                 {% for key, value in price_choices.items %}
-                <option value="{{key}}">{{value}}</option>
+                <option value="{{key}}" {% if key == values.price %} selected {% endif %} >{{value}}</option>
                 {% endfor %} 
                 {% endif %}
               </select>
