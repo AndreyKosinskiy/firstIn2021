@@ -21,7 +21,10 @@ def login(request):
 
 
 def logout(request):
-
+    if request.method == 'POST':
+        auth.logout(request)
+        messages.success(request, 'You logout success')
+        return redirect('index')
     return render(request, 'accounts/register.html')
 
 
