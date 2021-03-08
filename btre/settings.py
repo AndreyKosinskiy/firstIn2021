@@ -1,3 +1,4 @@
+from django.contrib.messages import constants as messages
 from pathlib import Path, PurePath
 import os
 import environ
@@ -132,9 +133,17 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-#Messages
-from django.contrib.messages import constants as messages
-MESSAGE_TAGS={
+# Messages
+MESSAGE_TAGS = {
     messages.INFO: 'info',
-    messages.ERROR:'danger',
+    messages.ERROR: 'danger',
 }
+
+# Email config
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
