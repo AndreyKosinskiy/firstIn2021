@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from contacts.models import Contact
 # Create your views here.
 
 
@@ -14,7 +15,7 @@ def login(request):
             messages.success(request, 'You are now logged in')
             return redirect('dashboard')
         else:
-            messages.error(request,"Incorrect username or password")
+            messages.error(request, "Incorrect username or password")
             return redirect('login')
     else:
         return render(request, 'accounts/login.html')
@@ -50,12 +51,13 @@ def register(request):
                     # looks good!
                     user = User.objects.create_user(
                         username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-                    #Login after register
+                    # Login after register
                     # auth.login(request,user)
                     # messages.success(request, 'You are now logged in')
                     # return redirect('index')
                     user.save()
-                    messages.success(request, 'You are now registered and can log in')
+                    messages.success(
+                        request, 'You are now registered and can log in')
                     return redirect('login')
         else:
             messages.error(request, 'Passwords do not match')
@@ -67,4 +69,9 @@ def register(request):
 
 
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    inquery = Contact.objects.order_by(
+        '-contact_date').filter(user_id=request.user.id)
+    context = {
+        'inquiries': inquery
+    }
+    return render(request, 'accounts/dashboard.html', context)
